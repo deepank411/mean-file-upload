@@ -1,0 +1,24 @@
+{
+    "name": "music-player",
+    "description": "Application for playing music",
+    "main": "main.js",
+    "version": "1.0.0",
+    "author": {
+        "name": "Shubham Kothari",
+        "email": "8shubhamkothari@gmail.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/8shubham/songs-api"
+    },
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "~1.15.2",
+        "cookie-parser": "~1.4.3",
+        "express": "~4.14.0",
+        "express-session": "~1.14.2",
+        "mongoose": "~4.7.2",
+        "body-parser": "~1.0.1",
+        "multer": "~1.2.0"
+    }
+}
