@@ -26,17 +26,32 @@ var router = express.Router();
 router.get('/', function(req, res){
     res.json({ message: 'Hurray! Its Working.'});
 });
- 
+
+//--routes starting with /songs--//
 router.route('/songs')
     //route to get the list of all the songs
     .get(function(req, res){
         //var newSong = new song();
-
         song.find(function(err, newSong){
             if(err)
                 res.send(err);
             else
                 res.json(newSong);
+        });
+    })
+
+    .post(function(req, res){
+        var songInfo = req.body;
+        var newSong = new song();
+        newSong.name = songInfo.name;
+        newSong.rating = songInfo.rating;
+
+        newSong.save(function(err){
+            if(err)
+                res.send(err);
+            else {
+                res.json({message: 'New Song Added!'});
+            }
         });
     });
 
@@ -47,10 +62,13 @@ router.route('/songs/:song_id')
         song.findById(req.params.song_id, function(err, newSong){
             if(err)
                 res.send(err);
-            else
+            else if(newSong != null)
                 res.json(newSong);
+            else {
+                res.json({message: 'No such song found'});
+            }
         });
-    });
+    })
 
     .put(function(req, res){
         song.findById(req.params.song_id, function(err, newSong){
@@ -84,25 +102,7 @@ router.route('/songs/:song_id')
 
     });
 
-//--routes starting with /songs--//
-router.route('/songs/:song_name')
 
-    //route to add a song
-    .post(function(req, res){
-        var songInfo = req.body;
-        var newSong = new song();
-        newSong.name = req.params.song_name;
-        newSong.rating = songInfo.rating;
-
-        newSong.save(function(err){
-            if(err)
-                res.send(err);
-            else {
-                res.json({message: 'New Song Added!'});
-            }
-        });
-    });
-   
 //--REGISTER OUR ROUTES --//
 app.use('/', router);
 //------------------------------- Start the server --------------//

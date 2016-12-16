@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var songsSchema =  new Schema({
-    name: { type:String, default:'' },
+    name: {type:String, default:''},
     rating: {type:Number, default:0}
 });
 
