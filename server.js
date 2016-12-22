@@ -6,6 +6,18 @@ var express = require('express'); //call express
 var app = express(); //defining our app using express
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var multer = require('multer');
+
+var storage = multer.diskStorage({
+    destination: function(req, file, callback) {
+        callback(null, './uploads');
+    },
+    filename: function(req, file, callback) {
+        callback(null, file.originalname);
+    }
+});
+
+var upload = multer({storage: storage}, {limits: {fileSize:100000, files: 1} }).single('userFile');
 
 mongoose.Promise = require('bluebird');
 
@@ -102,7 +114,21 @@ router.route('/songs/:song_id')
 
     });
 
+router.route('/uploads')
 
+    .get(function(req, res){
+        res.sendFile(__dirname + "/views/fileUpload.html");
+    })
+
+    .post(function(req, res){
+        upload(req, res, function(err){
+            if(err)
+                res.send(err);
+            else {
+                res.json({message: 'File Uploaded!'});
+            }
+        });
+    });
 //--REGISTER OUR ROUTES --//
 app.use('/', router);
 //------------------------------- Start the server --------------//
